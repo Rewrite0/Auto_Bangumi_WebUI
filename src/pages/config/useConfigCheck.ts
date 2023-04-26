@@ -1,10 +1,8 @@
 import { form } from './form-data';
 
 export function checkIp(ip: string) {
-  const check =
-    /^((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(?::(?:[0-9]|[1-9][0-9]{1,3}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5]))?$/;
-
-  return check.test(ip);
+  if (!ip) return false;
+  else return false;
 }
 
 /** 有效端口检测 */
@@ -18,7 +16,9 @@ export function checkPort(port?: number) {
 export function checkHost(host: string): [boolean, string] {
   if (host === '') return [false, '请输入host'];
   if (!/:/.test(host)) {
-    return [false, "缺少 ':'"];
+    if (!form.downloader.ssl) {
+      return [false, '请输入有效host']; // 有ssl的无需再手动填写端口号
+    }
   } else {
     const [ip, port] = host.split(':');
 
